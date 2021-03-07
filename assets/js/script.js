@@ -36,14 +36,37 @@ $(document).ready(function() {
         });
     
     
-    $(".saveBtn").click(function() {
-        alert( "click" );
-        var appts = {};
-    var appt = $.trim($("textarea").val());
-    var timeBlock = parseInt($(".time-block").attr("id"));
-    if(appt !="") {
-        console.log(timeBlock, appt);
+//save time and appointments on each line
+$(".saveBtn").click(function() {
+    //alert( "click" );
+    //var appts = {};
+var appt = $.trim($(this).siblings(".description").val());
+var timeBlock = parseInt($(this).siblings(".time-block").attr("id"));
+//if appointment is entered
+//if(appt !="") {
+    //console.log(timeBlock, appt);
+//}
+localStorage.setItem(timeBlock, appt);
+  });
+});
+
+
+var loadAppts = function() {
+    //iterate over keys, get one, and put appt in corresponding box
+    //check each timeBlock
+    for (i=9; i<21; i++) {
+        var item = localStorage.getItem(i);
+        // if there is an item, there is a key (number) and value (appt)
+        if (item) {
+            //find the right text area by ID
+            $("#" + i).siblings(".description").text(item);
+            // set it into the textarea
+            //$("textarea").text(item);
+        }
     }
-    localStorage.setItem(timeBlock, appt);
-      });
-    });
+        
+    //timeBlock = JSON.parse(localStorage.getItem(timeBlock));
+    appt = JSON.parse(localStorage.getItem(appt));
+}
+
+loadAppts();
