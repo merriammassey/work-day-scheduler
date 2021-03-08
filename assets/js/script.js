@@ -63,6 +63,7 @@ var loadAppts = function() {
     //timeBlock = JSON.parse(localStorage.getItem(timeBlock));
     appt = JSON.parse(localStorage.getItem(appt));
     
-    loadAppts();
+
 }
+loadAppts();
 
