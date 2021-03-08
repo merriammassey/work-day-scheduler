@@ -7,7 +7,7 @@ $(document).ready(function() {
     $("#currentDay").text(dt.toLocaleString(luxon.DateTime.DATETIME_FULL));
     
     $(".time-block").each(function() {
-        // loop through each element and take text of "this"/each element 
+        // loop through each element and compare the IDs to current hour
         //var timeBlock = parseInt($(this).text());
         var timeBlock = parseInt($(this).attr("id"));
         //console.log ("time id", timeBlock); 
@@ -23,8 +23,6 @@ $(document).ready(function() {
             $(this).siblings(".description").removeClass("past");
             $(this).siblings(".description").removeClass("future"); 
             ////console.log("red");
-            //this didn't work. changed to this siblings
-            //$("textarea").addClass("present");
             $(this).siblings(".description").addClass("present");
         } else {
             //remove old classes
@@ -35,11 +33,9 @@ $(document).ready(function() {
             }
         });
     
-    
-//save time and appointments on each line
+//save appointments entered on each line and corresponding IDs
 $(".saveBtn").click(function() {
     //alert( "click" );
-    //var appts = {};
 var appt = $.trim($(this).siblings(".description").val());
 var timeBlock = parseInt($(this).siblings(".time-block").attr("id"));
 //if appointment is entered
@@ -50,13 +46,12 @@ localStorage.setItem(timeBlock, appt);
   });
 });
 
-
+// make data persist
 var loadAppts = function() {
-    //iterate over keys, get one, and put appt in corresponding box
-    //check each timeBlock
+    //iterate over keys stored, get one, and put appt in corresponding box
     for (i=9; i<21; i++) {
         var item = localStorage.getItem(i);
-        // if there is an item, there is a key (number) and value (appt)
+        // if there is an item, there is a key (number) enter the value (appt) in the sibling textarea
         if (item) {
             //find the right text area by ID
             $("#" + i).siblings(".description").text(item);
@@ -67,6 +62,7 @@ var loadAppts = function() {
         
     //timeBlock = JSON.parse(localStorage.getItem(timeBlock));
     appt = JSON.parse(localStorage.getItem(appt));
+    
+    loadAppts();
 }
 
-loadAppts();
